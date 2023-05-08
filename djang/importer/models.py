@@ -1,31 +1,31 @@
 from django.db import models
 
 class Kupot(models.Model):
-    company = models.CharField(maxlength=255)
-    track = models.CharField(maxlength=255)
-    track_number = models.CharField(maxlength=255)
-    track_code = models.CharField(maxlength=255)
+    company = models.CharField(max_length=255)
+    track = models.CharField(max_length=255)
+    track_number = models.CharField(max_length=255)
+    track_code = models.CharField(max_length=255)
 
 class Reports(models.Model):
     kupa = models.ForeignKey(Kupot, on_delete=models.CASCADE)
     report_date = models.DateField()
-    category = models.CharField(maxlength=255)
+    category = models.CharField(max_length=255)
     fair_value = models.FloatField()
     percent_of_total = models.FloatField()
 
 
-class AssetDetails(model.Model):
+class AssetDetails(models.Model):
      report_id = models.ForeignKey(Reports, on_delete=models.CASCADE)
-     category = models.CharField(maxlength=255)
-     stock_name = models.CharField(maxlength=255)
+     category = models.CharField(max_length=255)
+     stock_name = models.CharField(max_length=255)
      stock_code = models.IntegerField()
      issuer_code = models.IntegerField()
-     stock_exchange = models.CharField(maxlength=255)
-     rating = models.CharField(maxlength=10)
-     rater = models.CharField(maxlength=50)
+     stock_exchange = models.CharField(max_length=255)
+     rating = models.CharField(max_length=10)
+     rater = models.CharField(max_length=50)
      purcahse_date = models.DateField()
      average_life_span = models.FloatField()
-     currency = models.CharField(maxlength=50)
+     currency = models.CharField(max_length=50)
      interest_rate = models.FloatField()
      proceeds = models.FloatField()
      value = models.FloatField()
@@ -35,13 +35,13 @@ class AssetDetails(model.Model):
      percent_of_value = models.FloatField()
      percent_of_asset_channel = models.FloatField()
      percent_of_total_assets = models.FloatField()
-     info_provider = models.CharField(maxlength=100)
-     sector = models.CharField(maxlength=100)
-     base_asset = models.CharField(maxlength=100)
+     info_provider = models.CharField(max_length=100)
+     sector = models.CharField(max_length=100)
+     base_asset = models.CharField(max_length=100)
      fair_value = models.FloatField()
-     consortium = model.BooleanField()
+     consortium = models.BooleanField()
      last_valuation_date = models.DateField()
      roi_in_period = models.FloatField()
-     estimated_value = models.FloatValue()
-     address = models.CharField(maxlength=255)
+     estimated_value = models.FloatField()
+     address = models.CharField(max_length=255)
 
