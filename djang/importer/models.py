@@ -9,10 +9,13 @@ class Kupot(models.Model):
 class Reports(models.Model):
     kupa = models.ForeignKey(Kupot, on_delete=models.CASCADE)
     report_date = models.DateField()
+
+class Summary(models.Model):
+    kupa = models.ForeignKey(Kupot, on_delete=models.CASCADE)
+    report= models.ForeignKey(Reports, on_delete=models.CASCADE)
     category = models.CharField(max_length=255)
     fair_value = models.FloatField()
     percent_of_total = models.FloatField()
-
 
 class AssetDetails(models.Model):
      report_id = models.ForeignKey(Reports, on_delete=models.CASCADE)
