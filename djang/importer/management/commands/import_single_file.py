@@ -17,7 +17,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
             f=options["file"]
             m=options["mode"]
-            xsls_ingester.xls_import(None, f)
+            ingester = xsls_ingester.xls_ingester()
+            self.stdout.write("ingest %s" %f )
+            ingester.ingest(f)
             self.stdout.write(
                     self.style.SUCCESS('Successfully imported  "%s"' %options )
             )
