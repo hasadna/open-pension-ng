@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from importer import models# TODO remove 
-from importer import xsls_ingester
+from importer.services import xsls_ingester
+import io
+import os
 
 class Command(BaseCommand):
     help = "gggxxx"
