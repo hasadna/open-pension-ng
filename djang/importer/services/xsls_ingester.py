@@ -236,7 +236,7 @@ class xls_ingester(object):
             # log failed files
             traceback.print_exc()
             fni = importer.models.FilesNotIngested()
-            fni.file_name = file
+            fni.file_name = filename
             fni.info = str(e)
             fni.save()
 
