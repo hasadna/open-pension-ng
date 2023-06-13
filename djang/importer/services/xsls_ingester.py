@@ -225,10 +225,10 @@ class xls_ingester(object):
                 if done: 
            	        break
     
-    def ingest(self, file):
+    def ingest(self, filename, file_stream):
         try:
-            self.file = file
-            wb = load_workbook(file)
+            self.file = filename
+            wb = load_workbook(file_stream)
             wb.calculation.calcOnLoad = True
             self.parse_spreadsheet(wb)
             self.reference_objects.clear()

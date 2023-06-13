@@ -15,11 +15,14 @@ class Command(BaseCommand):
         parser.add_argument("file",  type=str)
 
     def handle(self, *args, **options):
-            f=options["file"]
+            filename=options["file"]
             m=options["mode"]
             ingester = xsls_ingester.xls_ingester()
-            self.stdout.write("ingest %s" %f )
-            ingester.ingest(f)
+            with io.open(filename, "rb") as file:
+                    xls = io.BufferedReader(file)
+                    ingester = xsls_ingester.xls_ingester()
+                    self.stdout.write("ingest %s" %filename )
+                    ingester.ingest(filename, xls)
             self.stdout.write(
                     self.style.SUCCESS('Successfully imported  "%s"' %options )
             )
