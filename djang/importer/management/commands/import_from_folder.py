@@ -3,6 +3,7 @@ from importer import models# TODO remove
 from importer.services import xsls_ingester
 import os
 import io
+import datetime
 
 class Command(BaseCommand):
     help = "gggxxx"
@@ -19,7 +20,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
             p=options["path"]
             m=options["mode"]
-            self.stdout.write("About to import files from %s" %options["path"])
+            count = failed = 0
+            self.stdout.write(str(datetime.datetime.now())+" About to import files from %s" %options["path"])
             files = os.listdir(p)
             files = [os.path.join(p, f) for f in files if not f.startswith(".")]
             for filename in files:
@@ -27,9 +29,12 @@ class Command(BaseCommand):
                     xls = io.BufferedReader(file)
                     ingester = xsls_ingester.xls_ingester()
                     self.stdout.write("ingest %s" %filename )
-                    ingester.ingest(filename, xls)
+                    if ingester.ingest(filename, xls):
+                        count +=1
+                    else:
+                        failed +=1    
             #xsls_ingester.xls_import(p, None)
             self.stdout.write(
-                    self.style.SUCCESS('Successfully imported  "%s"' %options )
+                    self.style.SUCCESS(star(datetime.datetime.now())+'Successfully imported {1} files, {2} files failed'.format(count, failed))
             )
 

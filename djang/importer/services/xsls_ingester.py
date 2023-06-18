@@ -9,6 +9,8 @@ import argparse
 import json
 import datetime
 from dateutil import parser
+from efc.interfaces.iopenpyxl import OpenpyxlInterface
+from pycel import ExcelCompiler
 
 MAPPING_FILE = "./importer/field_mapping.json"
 
@@ -132,7 +134,7 @@ class xls_ingester(object):
                 objects[field["ref_name"]] = o
             if field["type"] == "reference":
                 value = objects[field["field_name"]]
-            if value is not None and value != "None" and value != '':   
+            if value is not None and value != "None" and str(value).strip() != '':   
                 if("date" in field["field_name"]):
                     value = parser.parse(value).date() 
                 setattr(o,field["field_name"],value)
@@ -204,7 +206,33 @@ class xls_ingester(object):
                     elif field["field_name"] == "category":
                         value = sh
                     else:
-                        value = str(row[column_idxs[i]-1].value)
+                        cell1 = row[column_idxs[i]-1]
+                        value = str(cell1.value)
+                        if value.startswith("="):
+                            try:
+                                value = self.interface.calc_cell(cell1.coordinate,sh)
+                                #value = self.excel.evaluate("'"+sh+"'!"+cell1.coordinate)
+                            except:
+                                print("++++++++++++++++++++\n\r \
+                                failed at "+sh+"-"+cell1.coordinate+
+                                "\n\r+++++++++++++++++++++")    
+                                traceback.print_exc() 
+                                fni = importer.models.FilesNotIngested()
+                                fni.file_name = filename
+                                fni.info = sh+"-"+cell1.coordinate+ \
+                                "\n\r+++"+str(e)
+                                fni.save()
+                                break 
+                            f_format = cell1.number_format
+                            if f_format == "0.00%":
+                            #match f_format:
+                            #    case "0.00%":
+                                    value = value*100
+                            #    case "#,##0.00" :
+                            #        value = '{:.2}'.format(value) 
+                            #elif f_format == "#,##0.00" :
+                            value = f"{value:.2f}"
+                            print(self.file+","+sh+ "-"+cell1.coordinate+"-"+str(value) +" format ="+f_format )
                     # special treatment - stock_name must be populated or row is not a data row    
                     if "stock_name" == field["field_name"] and (value is None or value == 'None' or value == ''):
                            skip = True
@@ -229,9 +257,12 @@ class xls_ingester(object):
         try:
             self.file = filename
             wb = load_workbook(file_stream)
+            self.interface = OpenpyxlInterface(wb=wb, use_cache=True)
+            #self.excel = ExcelCompiler(excel=wb)
             wb.calculation.calcOnLoad = True
             self.parse_spreadsheet(wb)
             self.reference_objects.clear()
+            return True
         except Exception as e:
             # log failed files
             traceback.print_exc()
@@ -239,6 +270,7 @@ class xls_ingester(object):
             fni.file_name = filename
             fni.info = str(e)
             fni.save()
+            return False
 
 def xls_import(path, file):
     if path is None:

@@ -17,7 +17,7 @@ class Command(BaseCommand):
         parser.add_argument("file",  type=str)
 
     def handle(self, *args, **options):
-            filename=options["file"]
+            filename="/home/guyga/hasadna/penssion/xlsx-files/files/רשימת נכסים ברמת נכס בודד- Public - מסלול פנסיה-2020 רבעון 1-מגדל מקפת אישית  למקבלי קצבה קיימים.xlsx"#options["file"]
             m=options["mode"]
             ingester = xsls_ingester.xls_ingester()
             with io.open(filename, "rb") as file:
