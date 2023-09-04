@@ -16,10 +16,13 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("mode",  type=str)
         parser.add_argument("path",  type=str)
+        parser.add_argument("force_override",nargs='?', 
+            help="Overwrite existing reports",)
 
     def handle(self, *args, **options):
             p=options["path"]
             m=options["mode"]
+            
             count = failed = 0
             self.stdout.write(str(datetime.datetime.now())+" About to import files from %s" %options["path"])
             files = os.listdir(p)
@@ -28,6 +31,7 @@ class Command(BaseCommand):
                 with io.open(filename, "rb") as file:
                     xls = io.BufferedReader(file)
                     ingester = xsls_ingester.xls_ingester()
+                    ingester.force = options["force_override"] is not None
                     self.stdout.write("ingest %s" %filename )
                     if ingester.ingest(filename, xls):
                         count +=1
@@ -35,6 +39,6 @@ class Command(BaseCommand):
                         failed +=1    
             #xsls_ingester.xls_import(p, None)
             self.stdout.write(
-                    self.style.SUCCESS(star(datetime.datetime.now())+'Successfully imported {1} files, {2} files failed'.format(count, failed))
+                    self.style.SUCCESS(str(datetime.datetime.now())+'Successfully imported {1} files, {2} files failed'.format(count, failed))
             )
 
