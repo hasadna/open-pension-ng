@@ -50,6 +50,12 @@ class AssetDetails(models.Model):
      roi_in_period = models.FloatField(null=True)
      estimated_value = models.FloatField(null=True)
      address = models.CharField(max_length=255,null=True)
+     average_interest_rate = models.FloatField(null=True)
+     asset_type = models.CharField(max_length=255,null=True)
+     commitment = models.FloatField(null=True)
+     effective_interest = models.FloatField(null=True)
+     coordinated_cost = models.FloatField(null=True)
+     commitment_end_date = models.DateField(null=True)
 
 class FilesNotIngested(models.Model):
     file_name = models.CharField(max_length=255)

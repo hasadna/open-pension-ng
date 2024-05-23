@@ -133,7 +133,7 @@
 				{
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "stock_code",
-					"column_title": ["מספר ני\"ע","מספר נ\"ע"],
+					"column_title": ["מספר ני\"ע","מספר נ\"ע","מספר הנייר","מספר נע במערכת","מספר נייר"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -189,7 +189,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "interest_rate",
-					"column_title": ["שיעור ריבית","שעור הריבית","שעור ריבית"],
+					"column_title": ["תנאי ושיעור ריבית","שיעור ריבית","שעור הריבית","שעור ריבית"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -217,7 +217,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "interest_dividend",
-					"column_title": ["פדיון ריבית דיבידנד","פידיון/ריבית לקבל","פדיון/ריבית/דיבידנד לקבל","פדיון/ריבית לקבל","פדיון/ ריבית/ דיבידנד לקבל"],
+					"column_title": ["פדיון ריבית דיבידנד","פידיון/ריבית לקבל","פדיון/ריבית/דיבידנד לקבל","פדיון/ריבית לקבל","פדיון/ ריבית/ דיבידנד לקבל","פדיון/ ריבית לקבל","פדיון/ ריבית לקבל*****"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -294,7 +294,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "roi_in_period",
-					"column_title": ["שיעור התשואה במהלך התקופה"],
+					"column_title": ["שיעור התשואה במהלך התקופה","שעור תשואה במהלך התקופה"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -311,7 +311,50 @@
 					"column_title": ["כתובת הנכס"],
 					"type": "extracted",
 					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "average_interest_rate",
+					"column_title": ["שיעור ריבית ממוצע"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "asset_type",
+					"column_title": ["אופי הנכס"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "commitment",
+					"column_title": ["סכום ההתחייבות"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "effective_interest",
+					"column_title": ["ריבית אפקטיבית"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "coordinated_cost",
+					"column_title": ["עלות מתואמת","עלות מותאמת"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "commitment_end_date",
+					"column_title": ["תאריך סיום ההתחייבות","סיום התחייבות","תאריך סיום"],
+					"type": "extracted",
+					"ref_name":"details"
 				}
+				
 			]
 		}
 ]

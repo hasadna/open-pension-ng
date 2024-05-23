@@ -39,6 +39,6 @@ class Command(BaseCommand):
                         failed +=1    
             #xsls_ingester.xls_import(p, None)
             self.stdout.write(
-                    self.style.SUCCESS(str(datetime.datetime.now())+'Successfully imported {1} files, {2} files failed'.format(count, failed))
+                    self.style.SUCCESS(str(datetime.datetime.now())+'Successfully imported {0} files, {1} files failed'.format(count, failed))
             )
 

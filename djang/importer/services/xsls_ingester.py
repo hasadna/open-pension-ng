@@ -127,7 +127,7 @@ class xls_ingester(object):
         kupa = self.kupa_exists()
         if kupa is not None:
            if kupa.company != self.reference_objects["kupa"].company or kupa.track != self.reference_objects["kupa"].track:
-               ptint("Warning: kupa not equals")
+               print("Warning: kupa not equals")
            self.reference_objects["kupa"] = kupa
            report = self.report_exists()
            if report is not None:
@@ -305,7 +305,7 @@ class xls_ingester(object):
                 traceback.print_exc()
                 fni = importer.models.FilesNotIngested()
                 fni.file_name = self.file
-                fni.info = sh+"-" + type(o).__name__ +\
+                fni.info = type(o).__name__ +\
                     "\n\r+++"+str(e)
                 fni.save()
 
