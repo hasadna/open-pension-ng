@@ -58,12 +58,12 @@ Start the Q Cluster:
 docker-compose up -d --build qcluster
 ```
 ## Open issues
-...
+
 Some of the xlsx files do not open, an exception is thrown.
 The list of problematic files is in the database in importer_filesnotingested table.
 The error is "Failed to read workbook
 <class 'openpyxl.styles.named_styles._NamedCellStyle'>.name should be <class 'str'> but value is <class 'NoneType'>"
-...
+<br>
 Another exception is trown with some files, seems to be caused by formula fields.
 Error is: "תעודות התחייבות ממשלתיות-R25
 +++Code 300. The number of operands is more than available in stack for function "+". Formula: C13+C15++C16+C17+C18+C19+C20+C21".
