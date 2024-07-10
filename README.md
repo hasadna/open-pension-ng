@@ -4,6 +4,9 @@ This is the xls ingester project, it reads data from excele files in a given dir
 importer_kupot - רשימת כל החברות והמסלולים <br>
 importer_reports - linked to kupot - contains the report date and file name <br>
 importer_asset_details - linked to reports - contains the details of assets and values. <br>
+![image](https://github.com/hasadna/open-pension-ng/importer-erd1.png)
+
+
 
 ## Setup
 
