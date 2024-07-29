@@ -4,13 +4,12 @@ from django.http import HttpResponse
 
 root="/"
 
+
 def companies(request):
     output = "רשימת החברות:<br><select size= 10 onchange='window.location.replace(\"/\"+this.options[this.selectedIndex].innerHTML)'>"
     company_list = models.Kupot.objects.values("company").distinct().order_by("company")
-    for k in company_list:
-        output = output+"<option >"+k["company"]+"</option>"
-    output = output+"</select>"
-    return HttpResponse(output)
+    return render(request, 'importer/index.html', context={'company_list': company_list})
+
 
 def kupot(request, company_name):
     output = "רשימת מסלולים ל"+company_name+":<br><select size = 10 \
@@ -19,7 +18,8 @@ def kupot(request, company_name):
     for k in company_list:
         output = output+"<option value="+str(k["id"])+">"+k["track"]+"</option>"
     output = output+"</select><br><button onclick='window.location.replace(\"/\")'>Home</button>"
-    return HttpResponse(output)
+    return render(request, 'importer/kupa.html', context={'company_name': company_name, 'company_list': company_list})
+    # return HttpResponse(output)
 
 def duchot(request, kupa_id, kupa):
     output = "רשימת דוח\"ות ל"+str(kupa)+":<br><select size = 10 onchange='window.location.replace(\"/tabs/\"+this.options[this.selectedIndex].value+\"/\"+this.options[this.selectedIndex].innerHTML)'>"

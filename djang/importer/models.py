@@ -6,6 +6,9 @@ class Kupot(models.Model):
     track_number = models.CharField(max_length=255)
     track_code = models.CharField(max_length=255, null=True)
 
+    def __str__(self):
+        return f'{self.company} {self.track}'
+
 class Reports(models.Model):
     kupa = models.ForeignKey(Kupot, on_delete=models.CASCADE)
     report_date = models.DateField()

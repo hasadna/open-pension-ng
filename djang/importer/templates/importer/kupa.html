@@ -1,0 +1,7 @@
+רשימת מסלולים ל-{{ company_name }}:<br>
+<select size = 10 onchange=window.location.replace("/\duchot/"+this.options[this.selectedIndex].value+"/"+this.options[this.selectedIndex].innerHTML)>
+    {% for company in company_list %}
+    <option value="{{ company.id }}">{{ company.track }}</option>
+    {% endfor %}
+</select><br>
+<button onclick='window.location.replace("/")'>Home</button>

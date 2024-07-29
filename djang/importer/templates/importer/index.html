@@ -1,0 +1,10 @@
+{% extends 'importer/base.html' %}
+{% block content %}
+רשימת החברות:
+<br>
+<select size= 10 onchange='window.location.replace("/"+this.options[this.selectedIndex].innerHTML)'>
+    {% for company in company_list %}
+    <option >{{ company.company }}</option>
+    {% endfor %}
+</select>
+{% endblock %}
