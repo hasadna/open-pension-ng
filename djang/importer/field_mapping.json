@@ -1,5 +1,5 @@
 [{
-			"tab_name": "סכום נכסי הקרן",
+			"tab_name": ["סכום נכסי הקרן","סכום נכסים"],
 			"fields": [{
 					"class_name": "importer.models.Kupot",
 					"field_name": "ID",
