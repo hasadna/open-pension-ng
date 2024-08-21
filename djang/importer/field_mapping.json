@@ -1,0 +1,360 @@
+[{
+			"tab_name": "סכום נכסי הקרן",
+			"fields": [{
+					"class_name": "importer.models.Kupot",
+					"field_name": "ID",
+					"column_title": "ID",
+					"type": "generated"
+				},
+				{
+					"class_name": "importer.models.Kupot",
+					"field_name": "company",
+					"column_title": "החברה המדווחת",
+					"type": "extracted",
+					"ref_name":"kupa"
+				},
+				{
+					"class_name": "importer.models.Kupot",
+					"field_name": "track",
+					"column_title": "שם מסלול/קרן/קופה",
+					"type": "extracted",
+					"ref_name":"kupa"
+				},
+				{
+					"class_name": "importer.models.Kupot",
+					"field_name": "track_number",
+					"column_title": "מספר מסלול/קרן/קופה",
+					"type": "extracted",
+					"ref_name":"kupa"
+				},
+				{
+					"class_name": "importer.models.Kupot",
+					"field_name": "track_code",
+					"column_title": "קוד קופת הגמל",
+					"type": "extracted",
+					"ref_name":"kupa"
+				},
+				{
+					"class_name": "importer.models.Reports",
+					"field_name": "ID",
+					"column_title": "ID",
+					"type": "generated"
+				},
+				{
+					"class_name": "importer.models.Reports",
+					"field_name": "kupa",
+					"column_title": "מזהה קופה",
+					"type": "reference",
+					"ref_name":"reports"
+				},
+				{
+					"class_name": "importer.models.Reports",
+					"field_name": "report_date",
+					"column_title": ["תאריך הדיווח","תאריך הדיווח:"],
+					"type": "extracted",
+					"ref_name":"reports"
+				},
+				{
+					"class_name": "importer.models.Summary",
+					"field_name": "Kupa",
+					"column_title": "מזהה קופה",
+					"type": "reference",
+					"ref_name":"sumarry"
+
+				},
+				{
+					"class_name": "importer.models.Summary",
+					"field_name": "Reports",
+					"column_title": "מזהה דו\"ח",
+					"type": "reference",
+					"ref_name":"sumarry"
+
+				},
+				{
+					"class_name": "importer.models.Summary",
+					"field_name": "fair_value",
+					"column_title": "שווי הוגן",
+					"type": "extracted",
+					"ref_name":"sumarry"
+				},
+				{
+					"class_name": "importer.models.Summary",
+					"field_name": "percent_of_total",
+					"column_title": "אחוז מסה\"כ",
+					"type": "extracted",
+					"ref_name":"sumarry"
+				},
+				{
+					"class_name": "importer.models.Summary",
+					"field_name": "category",
+					"column_title": "קטגוריה",
+					"type": "extracted",
+					"ref_name":"sumarry"
+				}
+			]
+		},
+		{
+			"tab_name": "any",
+			"fields": [{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "ID",
+					"column_title": ["ID"],
+					"type": "generated",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "reports",
+					"column_title": ["מזהה דו\"ח"],
+					"type": "reference",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "category",
+					"column_title": ["קטגוריה"],
+					"type": "tab_name",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "sub_category",
+					"column_title": ["קטגורית משנה"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "stock_name",
+					"column_title": ["שם ני\"ע","שם נ\"ע","שם המנפיק/שם נייר ערך"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "stock_code",
+					"column_title": ["מספר ני\"ע","מספר נ\"ע","מספר הנייר","מספר נע במערכת","מספר נייר"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "issuer_code",
+					"column_title": ["מספר מנפיק"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "stock_exchange",
+					"column_title": ["זירת מסחר"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "rating",
+					"column_title": ["דירוג"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "rater",
+					"column_title": ["שם מדרג","שם המדרג"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "purchase_date",
+					"column_title": ["תאריך רכישה"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "average_life_span",
+					"column_title": ["מח\"מ"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "currency",
+					"column_title": ["סוג מטבע"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "interest_rate",
+					"column_title": ["תנאי ושיעור ריבית","שיעור ריבית","שעור הריבית","שעור ריבית"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "proceeds",
+					"column_title": ["תשואה לפדיון","תשואה לפידיון"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "value",
+					"column_title": ["ערך נקוב"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "exchange_rate",
+					"column_title": ["שער"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "interest_dividend",
+					"column_title": ["פדיון ריבית דיבידנד","פידיון/ריבית לקבל","פדיון/ריבית/דיבידנד לקבל","פדיון/ריבית לקבל","פדיון/ ריבית/ דיבידנד לקבל","פדיון/ ריבית לקבל","פדיון/ ריבית לקבל*****"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "market_value",
+					"column_title": ["שווי שוק"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "percent_of_value",
+					"column_title": ["שעור מערך נקוב","שעור מערך נקוב מונפק"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "percent_of_asset_channel",
+					"column_title": ["שעור מנכסי אפיק השקעה","שיעור מנכסי אפיק ההשקעה","שעור מנכסי אפיק ההשקעה"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "percent_of_total_assests",
+					"column_title": ["שעור מסך נכסי השקעה","שעור מנכסי השקעה"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "info_provider",
+					"column_title": ["ספק מידע","ספק המידע"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "sector",
+					"column_title": ["ענף מסחר","ענף משק"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "base_asset",
+					"column_title": ["נכס בסיס","נכס הבסיס"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "fair_value",
+					"column_title": ["שווי הוגן"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "consortium",
+					"column_title": ["קונסורציום כן/לא","קונסורציום"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "last_valuation_date",
+					"column_title": ["תאריך שערוך אחרון"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "roi_in_period",
+					"column_title": ["שיעור התשואה במהלך התקופה","שעור תשואה במהלך התקופה"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "estimated_value",
+					"column_title": ["שווי משוערך"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "address",
+					"column_title": ["כתובת הנכס"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "average_interest_rate",
+					"column_title": ["שיעור ריבית ממוצע"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "asset_type",
+					"column_title": ["אופי הנכס"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "commitment",
+					"column_title": ["סכום ההתחייבות"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "effective_interest",
+					"column_title": ["ריבית אפקטיבית"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "coordinated_cost",
+					"column_title": ["עלות מתואמת","עלות מותאמת"],
+					"type": "extracted",
+					"ref_name":"details"
+				},
+				{		
+					"class_name": "importer.models.AssetDetails",
+					"field_name": "commitment_end_date",
+					"column_title": ["תאריך סיום ההתחייבות","סיום התחייבות","תאריך סיום"],
+					"type": "extracted",
+					"ref_name":"details"
+				}
+				
+			]
+		}
+]
