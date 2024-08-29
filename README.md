@@ -26,7 +26,7 @@ make serve
 
 ```
 cd djang
-../venv/bin/python3 manage.py  import_from_folder path= <path to directory where excel files are>
+../venv/bin/python3 manage.py  import_from_folder path <path to directory where excel files are> [force_overrride]
 ```
 
 
