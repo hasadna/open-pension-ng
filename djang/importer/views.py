@@ -38,7 +38,7 @@ def tabs(request, report_id, report_date):
     "<select size = 10 onchange='window.location.replace(\"/details/"+str(report_id)+"/\"+this.options[this.selectedIndex].innerHTML)'>"
     tab_list = models.AssetDetails.objects.values("category").filter(reports_id=report_id).distinct()
     for k in tab_list:
-        output = output+"<option>"+k["category"]+"'</option>"
+        output = output+"<option>"+k["category"]+"</option>"
     output = output+"</select><br><button onclick='window.location.replace(\"/\")'>Home</button>"
     return HttpResponse(output)
 
