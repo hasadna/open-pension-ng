@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from importer import models
 from django.http import HttpResponse
+from django.http import FileResponse
 
 root="/"
 
@@ -31,11 +32,13 @@ def duchot(request, kupa_id, kupa):
 
 def tabs(request, report_id, report_date):
     reports =   models.Reports.objects.values().filter(id=report_id)
-    output = "קובץ  "+reports[0]["file_name"]+"<br>רשימת טאבים:<br>"+\
+    file_name = reports[0]["file_name"]
+    file_name = file_name[file_name.rfind("/"):]
+    output = "<a href='/files"+file_name+"'>פתח קובץ:</a><br>רשימת טאבים:<br>"+\
     "<select size = 10 onchange='window.location.replace(\"/details/"+str(report_id)+"/\"+this.options[this.selectedIndex].innerHTML)'>"
     tab_list = models.AssetDetails.objects.values("category").filter(reports_id=report_id).distinct()
     for k in tab_list:
-        output = output+"<option>"+k["category"]+"</option>"
+        output = output+"<option>"+k["category"]+"'</option>"
     output = output+"</select><br><button onclick='window.location.replace(\"/\")'>Home</button>"
     return HttpResponse(output)
 
@@ -56,3 +59,12 @@ def details(request, report_id, tab):
         output = output + "</tr>"        
     output = output+"</table><br><button onclick='window.location.replace(\"/\")'>Home</button>" 
     return HttpResponse(output)
+
+def files(request,file_name):
+        filename="./xlsx-files/files/"+file_name
+        return FileResponse(open(filename, "rb"),
+           headers={
+            "Content-Type": "application/vnd.ms-excel",
+            "Content-Disposition": 'attachment; filename="'+filename+'"',
+           }
+        )
