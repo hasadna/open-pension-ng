@@ -16,7 +16,7 @@ MAPPING_FILE = "./importer/field_mapping.json"
 
 
 class xls_ingester(object):
-    force = False
+    force = True
     file = None
     wb = None
     with open(MAPPING_FILE) as json_data:
@@ -26,8 +26,11 @@ class xls_ingester(object):
     def __init__(self):
         super().__init__()
 
+    def get_sheetnames(self, wb):
+        return wb.sheetnames
+
     def find_sn(self, wb):
-        sheet_name_array = wb.sheetnames
+        sheet_name_array = self.get_sheetnames(wb)
         for sn in sheet_name_array:
             # ignore dynamic pick lists that exists in some of the reports
             if sn.startswith("{PL}PickLst"):
@@ -35,9 +38,9 @@ class xls_ingester(object):
         for tab in self.mapping:
             sn = tab["tab_name"]
             if sn != "any":
-                self.parse_first_tab(wb, sn, tab)
-                sheet_name_array.remove(sn)
-                ws = wb[sn]
+                sn2 = self.parse_first_tab(wb, sn, tab)
+                sheet_name_array.remove(sn2)
+                ws = wb[sn2]
                 fields = tab["fields"]
                 for field in fields:
                     if field["type"] == "generated":
@@ -80,6 +83,13 @@ class xls_ingester(object):
         val = datetime.datetime.now()
         self.reference_objects = self.put_in_model(
             self.reference_objects, field, val)
+            
+    def getSheet(self, wb, sn):
+            for sn1 in sn:
+                if sn1 in wb:
+                    sn2 = sn1
+                    break
+            return wb[sn2] , sn2   
 
     def parse_first_tab(self, wb, sn, tab):
         # from first tab get report date, company, track name and track code
@@ -89,34 +99,35 @@ class xls_ingester(object):
             if field["type"] == 'generated':
                 continue
             else:
-                for row in wb[sn].iter_rows(min_row=1, max_row=4, max_col=4, values_only=False):
-                    for cell in row:
-                        found = False
-                        if cell.value is not None:
-                            if str(cell.value).startswith("{PL}PickLst"):
-                                break
-                            stripped = str(cell.value).replace(
-                                '*', '').replace(":", "").strip()
-                            for field1 in tab["fields"]:
-                                # in some of the reports there are multiple * characters of column titles as pointers to comments
-                                if stripped in field1["column_title"]:
-                                    found = True
-                                    i = 1
-                                    for i in range(1, 4):
-                                        val = wb[sn].cell(
-                                            row=cell.row, column=cell.column+i).value
-                                        if val is not None:
-                                            self.reference_objects = self.put_in_model(
-                                                self.reference_objects, field1, val)
-                                            break
+                worksheet, sn2 = self.getSheet(wb, sn)
+                if worksheet is not None:    
+                    for row in worksheet.iter_rows(min_row=1, max_row=4, max_col=4, values_only=False):
+                        for cell in row:
+                            found = False
+                            if cell.value is not None:
+                                if str(cell.value).startswith("{PL}PickLst"):
                                     break
-                                elif field1["type"] == "reference":
-                                    self.reference_objects = self.put_in_model(
-                                        self.reference_objects, field1, None)
-                            break
+                                stripped = str(cell.value).replace(
+                                    '*', '').replace(":", "").strip()
+                                for field1 in tab["fields"]:
+                                    # in some of the reports there are multiple * characters of column titles as pointers to comments
+                                    if stripped in field1["column_title"]:
+                                        found = True
+                                        i = 1
+                                        for i in range(1, 4):
+                                            val = worksheet.cell(row=cell.row, column=cell.column+i).value
+                                            if val is not None:
+                                                self.reference_objects = self.put_in_model(
+                                                    self.reference_objects, field1, val)
+                                                break
+                                        break
+                                    elif field1["type"] == "reference":
+                                        self.reference_objects = self.put_in_model(
+                                            self.reference_objects, field1, None)
+                                break
                 self.save_first_tab()        
                
-                return
+                return sn2
 
     def save_first_tab(self):
         # if kupa exists
@@ -321,7 +332,8 @@ class xls_ingester(object):
             self.reference_objects.clear()
             return True
         except ValueError: 
-            #traceback.print_exc()
+
+            traceback.print_exc()
             print("report already exists")
             return False
 

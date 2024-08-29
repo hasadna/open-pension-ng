@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from importer import models# TODO remove 
 from importer.services import xsls_ingester
+from importer.services import ingester_with_calamine
 import io
 import os
 
@@ -17,14 +18,19 @@ class Command(BaseCommand):
         parser.add_argument("file",  type=str)
 
     def handle(self, *args, **options):
-            filename="/home/guyga/hasadna/penssion/xlsx-files/files/רשימת נכסים ברמת נכס בודד- Public - מסלול פנסיה-2020 רבעון 1-מגדל מקפת אישית  למקבלי קצבה קיימים.xlsx"#options["file"]
+            filename="/home/guyga/hasadna/penssion/xlsx-files/bad/רשימת נכסים ברמת נכס בודד- Public - מסלול פנסיה-2020 רבעון 1-איילון מיטב כללית מסלול מניות.xlsx"
+            #"/home/guyga/hasadna/penssion/xlsx-files/files/12065202_p12157_p120.xlsx"#options["file"]
             m=options["mode"]
             ingester = xsls_ingester.xls_ingester()
             with io.open(filename, "rb") as file:
                     xls = io.BufferedReader(file)
                     ingester = xsls_ingester.xls_ingester()
                     self.stdout.write("ingest %s" %filename )
-                    ingester.ingest(filename, xls)
+                    status=ingester.ingest(filename, xls)
+                    if not status:
+                        ingester = ingester_with_calamine.Ingester_whith_calamine()
+                        self.stdout.write("ingest %s" %filename )
+                        status=ingester.ingest(filename, xls)
             self.stdout.write(
                     self.style.SUCCESS('Successfully imported  "%s"' %options )
             )
