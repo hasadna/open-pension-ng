@@ -61,7 +61,7 @@ def details(request, report_id, tab):
     return HttpResponse(output)
 
 def files(request,file_name):
-        filename="./xlsx-files/files/"+file_name
+        filename="./xlsx-files/"+file_name
         return FileResponse(open(filename, "rb"),
            headers={
             "Content-Type": "application/vnd.ms-excel",
