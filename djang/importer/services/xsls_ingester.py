@@ -16,7 +16,7 @@ MAPPING_FILE = "./importer/field_mapping.json"
 
 
 class xls_ingester(object):
-    force = False
+    force = True
     file = None
     wb = None
     with open(MAPPING_FILE) as json_data:
@@ -38,9 +38,9 @@ class xls_ingester(object):
         for tab in self.mapping:
             sn = tab["tab_name"]
             if sn != "any":
-                self.parse_first_tab(wb, sn, tab)
-                sheet_name_array.remove(sn)
-                ws = wb[sn]
+                sn2 = self.parse_first_tab(wb, sn, tab)
+                sheet_name_array.remove(sn2)
+                ws = wb[sn2]
                 fields = tab["fields"]
                 for field in fields:
                     if field["type"] == "generated":
@@ -89,7 +89,7 @@ class xls_ingester(object):
                 if sn1 in wb:
                     sn2 = sn1
                     break
-            return wb[sn2]    
+            return wb[sn2] , sn2   
 
     def parse_first_tab(self, wb, sn, tab):
         # from first tab get report date, company, track name and track code
@@ -99,7 +99,7 @@ class xls_ingester(object):
             if field["type"] == 'generated':
                 continue
             else:
-                worksheet = self.getSheet(wb, sn)
+                worksheet, sn2 = self.getSheet(wb, sn)
                 if worksheet is not None:    
                     for row in worksheet.iter_rows(min_row=1, max_row=4, max_col=4, values_only=False):
                         for cell in row:
@@ -115,8 +115,7 @@ class xls_ingester(object):
                                         found = True
                                         i = 1
                                         for i in range(1, 4):
-                                            val = wb[sn2].cell(
-                                                row=cell.row, column=cell.column+i).value
+                                            val = worksheet.cell(row=cell.row, column=cell.column+i).value
                                             if val is not None:
                                                 self.reference_objects = self.put_in_model(
                                                     self.reference_objects, field1, val)
@@ -128,7 +127,7 @@ class xls_ingester(object):
                                 break
                 self.save_first_tab()        
                
-                return
+                return sn2
 
     def save_first_tab(self):
         # if kupa exists
@@ -334,7 +333,7 @@ class xls_ingester(object):
             return True
         except ValueError: 
 
-            #traceback.print_exc()
+            traceback.print_exc()
             print("report already exists")
             return False
 
