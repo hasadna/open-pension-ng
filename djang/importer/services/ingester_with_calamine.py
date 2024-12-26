@@ -1,5 +1,7 @@
 
 from python_calamine import CalamineWorkbook
+import importer
+from importer import models
 from importer.services import xsls_ingester
 import traceback
 
@@ -13,11 +15,38 @@ class Ingester_whith_calamine(xsls_ingester.xls_ingester):
         return wb.sheet_names
     
     def getSheet(self, wb, sn):
+            if isinstance(sn,(str)):
+                ws = wb.get_sheet_by_name(sn)
+                return  ws, sn
             for sn1 in sn:
                 ws = wb.get_sheet_by_name(sn1)
                 if ws != None:
-                    return ws
+                    return ws, sn1
             return None   
+
+    def find_title_row(self, ws, field_name):
+        workarray = ws.to_python(skip_empty_area=True)
+        i = 0
+        for row in ws.iter_rows():
+        # print(field_name)
+            for cell1 in row:
+                if cell1 is not None:
+                    if cell1 in field_name:
+                        # print("cell="+cell1.value)
+                        return i  
+            i=i+1      
+
+    def get_row(self, workbook, sheet, row):
+            return workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=True)[row]
+    
+    def get_rows(self, workbook, sheet, first_row):
+            return workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=True)[first_row:]
+    
+    def get_value(self, cel):
+        return cel
+
+    def get_cell_index(self, **kwargs):
+        return kwargs.get("title_row").index(kwargs.get("cell"))+1    
 
     def parse_first_tab(self, wb, sn, tab):
         # from first tab get report date, company, track name and track code
@@ -27,11 +56,10 @@ class Ingester_whith_calamine(xsls_ingester.xls_ingester):
             if field["type"] == 'generated':
                 continue
             else:
-                worksheet = self.getSheet(wb, sn)
+                worksheet, sn= self.getSheet(wb, sn)
                 if worksheet is not None:    
                     workarray = worksheet.to_python(skip_empty_area=False)
-
-                    for row in workarray[0:3]:
+                    for row in workarray[0:4]:
                         i = -1
                         for cell in row:
                             i += 1
@@ -59,7 +87,7 @@ class Ingester_whith_calamine(xsls_ingester.xls_ingester):
                                 break
                 self.save_first_tab()        
                
-                return        
+                return worksheet.name       
 
     def ingest(self, filename, file_stream):
         try:
@@ -69,7 +97,7 @@ class Ingester_whith_calamine(xsls_ingester.xls_ingester):
             return True
         except ValueError: 
             
-            #traceback.print_exc()
+            traceback.print_exc()
             print("report already exists")
             return False
 

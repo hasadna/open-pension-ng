@@ -196,7 +196,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "proceeds",
-					"column_title": ["תשואה לפדיון","תשואה לפידיון"],
+					"column_title": ["תשואה לפדיון","תשואה לפידיון","תשואה לפידיון לפי שווי הוגן"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -238,7 +238,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "percent_of_asset_channel",
-					"column_title": ["שעור מנכסי אפיק השקעה","שיעור מנכסי אפיק ההשקעה","שעור מנכסי אפיק ההשקעה"],
+					"column_title": ["שעור מנכסי אפיק השקעה","שיעור מנכסי אפיק ההשקעה","שעור מנכסי אפיק ההשקעה","שיעור מנכסי אפיק ה השקעה"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -315,7 +315,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "average_interest_rate",
-					"column_title": ["שיעור ריבית ממוצע"],
+					"column_title": ["שיעור ריבית ממוצע","שעור ריבית ממוצע"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -329,7 +329,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "commitment",
-					"column_title": ["סכום ההתחייבות"],
+					"column_title": ["סכום ההתחייבות","יתרת התחייבות באלפי ₪"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
@@ -343,7 +343,7 @@
 				{		
 					"class_name": "importer.models.AssetDetails",
 					"field_name": "coordinated_cost",
-					"column_title": ["עלות מתואמת","עלות מותאמת"],
+					"column_title": ["עלות מתואמת","עלות מותאמת","עלות"],
 					"type": "extracted",
 					"ref_name":"details"
 				},
