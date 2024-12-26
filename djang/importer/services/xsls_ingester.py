@@ -40,18 +40,19 @@ class xls_ingester(object):
             if sn != "any":
                 sn2 = self.parse_first_tab(wb, sn, tab)
                 sheet_name_array.remove(sn2)
-                ws = wb[sn2]
-                fields = tab["fields"]
-                for field in fields:
-                    if field["type"] == "generated":
-                        continue
+                #ws = wb[sn2]
+                #fields = tab["fields"]
+                #for field in fields:
+                #    if field["type"] == "generated":
+                #        continue
                         # print(field["column_title"])
             # print(tab)
         return sheet_name_array, tab
 
     def find_title_row(self, ws, field_name):
-        # print(field_name)
+        #(str(ws))
         for row in ws.iter_rows():
+            #print("+++++++++++++++++++++++++ after iter")
             for cell1 in row:
                 if cell1.value is not None:
                     if cell1.value in field_name:
@@ -85,11 +86,25 @@ class xls_ingester(object):
             self.reference_objects, field, val)
             
     def getSheet(self, wb, sn):
+            if isinstance(sn,(str)):
+                return wb[sn] , sn
             for sn1 in sn:
                 if sn1 in wb:
                     sn2 = sn1
                     break
             return wb[sn2] , sn2   
+
+    def get_row(self, workbook, sheet, row):
+        return next(workbook[sheet].iter_rows(min_row=row, max_row=row, values_only=False))
+    
+    def get_rows(self, workbook, sheet, first_row):
+        return workbook[sheet].iter_rows(min_row=first_row, values_only=False)
+
+    def get_value(self, cell):
+        return cell.value
+        
+    def get_cell_index(self, **kwargs):
+        return kwargs.get("cell").column
 
     def parse_first_tab(self, wb, sn, tab):
         # from first tab get report date, company, track name and track code
@@ -209,49 +224,61 @@ class xls_ingester(object):
             column_idxs = list()
             column_list = []
             title_row = 0
+            found = 0
             # find title row in tab
             for field in tab["fields"]:
                 if field["type"] == 'generated':
                     continue
                 if field["type"] == 'extracted':
                     if title_row == 0:
-                        tr = self.find_title_row(wb[sh], field["column_title"])
+                        ws, sn2=self.getSheet(wb,sh)
+                        tr = self.find_title_row(ws, field["column_title"])
                         if tr is not None:
                             title_row = tr
                             break
-            # find row of values
-            for row in wb[sh].iter_rows(min_row=title_row, max_row=title_row, values_only=False):
-                for cell in row:
-                    found = 0
-                    if cell.value is not None:
-                        if str(cell.value).startswith("{PL}PickLst"):
-                            break
-                        # in some of the reports there are multiple * characters of column titles as pointers to comments
-                        stripped = str(cell.value).replace('*', '').strip()
-                        for field in tab["fields"]:
-                            if field["type"] == 'reference':
-                                found += 1
-                                column_idxs.append(found)
-                                column_list.append(field)
-                            if field["field_name"] == "category":
-                                found += 1
-                                column_idxs.append(found)
-                                column_list.append(field)
-                            if stripped in field["column_title"]:
-                                found += 1
-                                column_idxs.append(cell.column)
-                                column_list.append(field)
-                            if found == 3:
-                                break
-                        if found < 3:
-                            # field not found in mapping - log
-                            uf = importer.models.UnmappedFields()
-                            uf.file_name = self.file
-                            uf.tab_name = sh
-                            uf.field = str(cell.value)
-                            uf.save()
+            # 
+            # create an array of fields by finding the field title in title row
+            # create an array of indexes of the fields in the worksheet
+            title_row = self.get_row(wb, sh, tr)
+            for cell in title_row:
+                if cell == '':
+                    break
+                cell_value = self.get_value(cell)
+                if cell_value is None:
+                    continue
+                cell_index = self.get_cell_index(cell=cell, title_row=title_row) #title_row.index(cell)
+                if cell_value is not None:
+                    if str(cell_value).startswith("{PL}PickLst"):
+                        break
+                # in some of the reports there are multiple * characters of column titles as pointers to comments
+                stripped = str(cell_value).replace('*', '').strip()
+                for field in tab["fields"]:
+                    found1 = False
+                    if found < 2:
+                        if field["type"] == 'reference':
+                           found += 1
+                           column_idxs.append(found)
+                           column_list.append(field)
+                        if field["field_name"] == "category":
+                           found += 1
+                           column_idxs.append(found)
+                           column_list.append(field)
+                    if stripped in field["column_title"]:
+                        found1 = True
+                        column_idxs.append(cell_index)
+                        column_list.append(field)
+                        break
+                if not found1:
+                    # field not found in mapping - log
+                    uf = importer.models.UnmappedFields()
+                    uf.file_name = self.file
+                    uf.tab_name = sh
+                    uf.field = str(cell_value)
+                    uf.save()
             done = False
-            for row in wb[sh].iter_rows(min_row=title_row+1):
+            # For each row in the worksheet find the values by using the index list
+            # If value is valid add the value and field to the objects in the model
+            for row in self.get_rows(wb, sh, tr+1):
                 skip = False
                 # clear details object as each row is a new details record
                 if "details" in self.reference_objects:
@@ -264,8 +291,16 @@ class xls_ingester(object):
                     elif field["field_name"] == "category":
                         value = sh
                     else:
-                        cell1 = row[column_idxs[i]-1]
-                        value = str(cell1.value)
+                        ind = column_idxs[i]
+                        cell1 = row[ind-1]
+                        value = str(self.get_value(cell1))
+                         # special treatment - stock_name must be populated or row is not a data row
+                        if "stock_name" == field["field_name"] and (value is None or value == 'None' or value == ''):
+                            skip = True
+                            break
+                        #if cell1 is None or cell1 == 'None' or cell1 == '':
+                        #    break
+                        # if value is a formula - currently only relevant in pyxl
                         if value.startswith("="):
                             try:
                                 # field is a formula field - calculate it
@@ -280,6 +315,7 @@ class xls_ingester(object):
                                     "\n\r+++"+str(e)
                                 fni.save()
                                 break
+                            # apply format - is it really needed?
                             f_format = cell1.number_format
                             if f_format == "0.00%":
                                 # match f_format:
@@ -291,10 +327,6 @@ class xls_ingester(object):
                             # round to 2 decimal points
                             value = f"{value:.2f}"
                             # print(self.file+","+sh+ "-"+cell1.coordinate+"-"+str(value) +" format ="+f_format )
-                    # special treatment - stock_name must be populated or row is not a data row
-                    if "stock_name" == field["field_name"] and (value is None or value == 'None' or value == ''):
-                        skip = True
-                        break
                     # special treatment - row starting with * signals end of data
                     if '*' in str(value):
                         done = True
