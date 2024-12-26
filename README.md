@@ -66,13 +66,15 @@ Some of the xlsx files do not open, an exception is thrown.
 The list of problematic files is in the database in importer_filesnotingested table.
 The error is "Failed to read workbook
 <class 'openpyxl.styles.named_styles._NamedCellStyle'>.name should be <class 'str'> but value is <class 'NoneType'>"
-<br> - <b>This issue is now resolved using calamine library to open the files that did not open with pyxl</b>
+<br> - <b>This issue is now resolved using calamine library to open the files that did not open with pyxl</b><br>
 Another exception is trown with some files, seems to be caused by formula fields.
 Error is: "תעודות התחייבות ממשלתיות-R25
-+++Code 300. The number of operands is more than available in stack for function "+". Formula: C13+C15++C16+C17+C18+C19+C20+C21". - 'אלה אם בכלל כדאי לשמור שדות מחושבים בדאטהבייס או לחשב אותם בשליפה, לדוגמא שדות עם סיכום סך הכל משדות אחרים , אחוזים או ממוצאים
++++Code 300. The number of operands is more than available in stack for function "+". Formula: C13+C15++C16+C17+C18+C19+C20+C21". - ' <br>
+שאלה אם  בכלל כדאי לשמור שדות מחושבים בדאטהבייס או לחשב אותם בשליפה, לדוגמא שדות עם סיכום סך הכל משדות אחרים , אחוזים או ממוצאים
 בחלק מהגליונות הערכים בשדות האלה קיימים ובחלק אלה שדות עם נוסחאות
+<br>
 ...
-קיים ממשק משתמש בסיסי שיכול לשמש לבדיקת נכונות הנתונים - זה לא ממשק למשתמש קצה
-השלב הבא - בדיקת נכונות הנתונים וטיוב
-התאמה לפורמט חדש שבשימוש מהשנה
-מתאמת מערכת BI לתשאול ומחקר של הנתונים
+קיים ממשק משתמש בסיסי שיכול לשמש לבדיקת נכונות הנתונים - זה לא ממשק למשתמש קצה<br>
+השלבים הבאים - בדיקת נכונות הנתונים וטיוב<br>
+התאמה לפורמט חדש שבשימוש מהשנה<br>
+מתאמת מערכת BI לתשאול ומחקר של הנתונים<br>
