@@ -70,3 +70,4 @@ class UnmappedFields(models.Model):
     tab_name  = models.CharField(max_length=255)
     field = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now=True)
+    comment = models.CharField(max_length=255,null=True)
