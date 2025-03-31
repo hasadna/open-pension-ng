@@ -32,10 +32,15 @@ class Command(BaseCommand):
             for filename in files:
                 with io.open(filename, "rb") as file:
                     xls = io.BufferedReader(file)
-                    ingester = xsls_ingester.xls_ingester()
+                    #ingester = xsls_ingester.xls_ingester()
+                    #ingester.force = options["force_override"] is not None
+                    #self.stdout.write("ingest %s" %filename )
+                    #status=ingester.ingest(filename, xls)
+                    ingester = ingester_with_calamine.Ingester_whith_calamine()
                     ingester.force = options["force_override"] is not None
-                    self.stdout.write("ingest %s" %filename )
+                    self.stdout.write("ingest with calamine %s" %filename )
                     status=ingester.ingest(filename, xls)
+                    calamine +=1
                     if not status:
                         ingester = ingester_with_calamine.Ingester_whith_calamine()
                         self.stdout.write("ingest with calamine %s" %filename )

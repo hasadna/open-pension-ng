@@ -3,12 +3,13 @@ from importer import models
 import openpyxl
 from openpyxl import load_workbook
 import os
-import datetime
 import traceback
 import argparse
 import json
 import datetime
+#import dateutil
 from dateutil import parser
+#from dateutil import ParserError
 from efc.interfaces.iopenpyxl import OpenpyxlInterface
 from pycel import ExcelCompiler
 
@@ -21,10 +22,11 @@ class xls_ingester(object):
     wb = None
     with open(MAPPING_FILE) as json_data:
         mapping = json.load(json_data)
-    reference_objects = dict()
+    
 
     def __init__(self):
         super().__init__()
+        self.reference_objects = dict()
 
     def get_sheetnames(self, wb):
         return wb.sheetnames
@@ -160,6 +162,7 @@ class xls_ingester(object):
               if self.force:
                   self.reference_objects["reports"] = report
                   print("Warning: overwriting report")
+                  importer.models.AssetDetails.objects.filter(reports=report).delete()
               else:
                   raise ValueError("report already exists")
            self.reference_objects["reports"].kupa = kupa
@@ -208,10 +211,16 @@ class xls_ingester(object):
                 value = objects[field["field_name"]]
             if value is not None and value != "None" and str(value).strip() != '':
                 # special case assumes all date fields have "date" in field name
+                field_name = field["field_name"]
                 if ("date" in field["field_name"]):
-                    value = parser.parse(value).date()
+                    try:
+                        value = parser.parse(value).date()
+                    except :
+                        field_name = "comment"
+                        value = field["field_name"]+"="+value
+                        #setattr(o, "comment",field["field_name"]+"="+value) 
                 # set the value to the right member of object    
-                setattr(o, field["field_name"], value)
+                setattr(o, field_name, value)
         except Exception as e:
             traceback.print_exc()
         return objects
@@ -296,6 +305,11 @@ class xls_ingester(object):
                         value = str(self.get_value(cell1))
                          # special treatment - stock_name must be populated or row is not a data row
                         if "stock_name" == field["field_name"] and (value is None or value == 'None' or value == ''):
+                            skip = True
+                            break
+                        # skip calculated rows
+                        if value in tab['calculated_rows']:
+                            print("calculated row"+value)
                             skip = True
                             break
                         #if cell1 is None or cell1 == 'None' or cell1 == '':

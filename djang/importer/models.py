@@ -56,6 +56,7 @@ class AssetDetails(models.Model):
      effective_interest = models.FloatField(verbose_name="ריבית אפקטיבית",null=True)
      coordinated_cost = models.FloatField(verbose_name="עלות מתואמת",null=True)
      commitment_end_date = models.DateField(verbose_name="תאריך סיום ההתחייבות",null=True)
+     comment = models.CharField(verbose_name="הערות",max_length=1024,null=True)
 
 class FilesNotIngested(models.Model):
     file_name = models.CharField(max_length=255)
