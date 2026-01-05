@@ -5,8 +5,43 @@
         {% endfor %}
     </tr>
     <tr>
-        {% for field in field_fields %}
-            <td>{{ field }}</td>
+        {% for field in fields %}
+            <td>{{ field.id }}</td>
+            <td>{{ field.reports }}</td>
+            <td>{{ field.category }}</td>
+            <td>{{ field.stock_name }}</td>
+            <td>{{ field.stock_code }}</td>
+            <td>{{ field.issuer_code }}</td>
+            <td>{{ field.stock_exchange }}</td>
+            <td>{{ field.rating }}</td>
+            <td>{{ field.rater }}</td>
+            <td>{{ field.purcahse_date }}</td>
+            <td>{{ field.average_life_span }}</td>
+            <td>{{ field.currency }}</td>
+            <td>{{ field.interest_rate }}</td>
+            <td>{{ field.proceeds }}</td>
+            <td>{{ field.value }}</td>
+            <td>{{ field.exchange_rate }}</td>
+            <td>{{ field.interest_dividend }}</td>
+            <td>{{ field.market_value }}</td>
+            <td>{{ field.percent_of_value }}</td>
+            <td>{{ field.percent_of_asset_channel }}</td>
+            <td>{{ field.percent_of_total_assets }}</td>
+            <td>{{ field.info_provider }}</td>
+            <td>{{ field.sector }}</td>
+            <td>{{ field.base_asset }}</td>
+            <td>{{ field.fair_value }}</td>
+            <td>{{ field.consortium }}</td>
+            <td>{{ field.last_valuation_date }}</td>
+            <td>{{ field.roi_in_period }}</td>
+            <td>{{ field.estimated_value }}</td>
+            <td>{{ field.address }}</td>
+            <td>{{ field.average_interest_rate }}</td>
+            <td>{{ field.asset_type }}</td>
+            <td>{{ field.commitment }}</td>
+            <td>{{ field.effective_interest }}</td>
+            <td>{{ field.coordinated_cost }}</td>
+            <td>{{ field.commitment_end_date }}</td>
         {% endfor %}
 {#        <th>1</th>#}
 {#        <th></th>#}

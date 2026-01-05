@@ -25,21 +25,7 @@ def tabs(request, report_id, report_date):
 
 def details(request, report_id, tab):
     field_list = models.AssetDetails._meta.get_fields()
-    #list(models.AssetDetails.objects.values().filter(reports_id=report_id).filter(category=tab).values().first().keys())
-    # output = "<table border=1><tr>"
     table_headers = [f.verbose_name for f in field_list]
-    # for f in field_list:
-    #     output = output + "<th>"+f.verbose_name+"</th>"
-    value_list = models.AssetDetails.objects.values().filter(reports_id=report_id).filter(category=tab).values()
-    data = value_list[0].values()
-    # for v in value_list:
-    #     output = output+"</tr><tr>"
-    #     for f in field_list:
-    #         if f.name in v and v[f.name] is not None:
-    #                 output = output + "<th>"+str(v[f.name])+"</th>"
-    #         else:
-    #             output = output + "<th></th>"
-    #     output = output + "</tr>"
-    # output = output+"</table><br><button onclick='window.location.replace(\"/\")'>Home</button>"
-    return render(request, 'importer/details.html', context={"field_headers": table_headers, "field_fields": data})
-    # return HttpResponse(output)
+    value_list = models.AssetDetails.objects.filter(reports_id=report_id).filter(category=tab)
+    print(value_list)
+    return render(request, 'importer/details.html', context={"field_headers": table_headers, "fields": value_list})
