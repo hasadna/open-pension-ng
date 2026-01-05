@@ -1,11 +1,50 @@
 <table border=1>
-    <th>ID</th>
-    <th>reports</th>
-    <th>category</th>
-    <th>שם ני"ע</th>
-    <th>מספר ני"ע</th>
-    <th>מספר מנפיק</th>
-    <th>זירת מסחר</th>
-    <th>דירוג</th>
-    <th>שם המדרג</th>
-    <th>תאריך רכישה</th><th>מח"מ</th><th>סוג מטבע</th><th>שעור ריבית</th><th>תשואה לפדיון</th><th>ערך נקוב</th><th>שער</th><th>פדיון ריבית דיבידנד</th><th>שווי שוק</th><th>שעור מערך נקוב</th><th>שעור מנכסי אפיק ההשקעה</th><th>שעור מנכסי השקעה</th><th>ספק המידע</th><th>ענף מסחר</th><th>נכס הבסיס</th><th>שווי הוגן</th><th>קונסורציום</th><th>תאריך שערוך אחרון</th><th>שעור תשואה במהלך התקופה</th><th>שווי משוערך</th><th>כתובת הנכס</th><th>שיעור ריבית ממוצע</th><th>אופי הנכס</th><th>סכום ההתחייבות</th><th>ריבית אפקטיבית</th><th>עלות מתואמת</th><th>תאריך סיום ההתחייבות</th><tr><th>1</th><th></th><th>nadlan</th><th>check1</th><th>32323</th><th>3456</th><th>israel</th><th>A</th><th>modies</th><th>2025-12-29</th><th>121212.0</th><th>NIs</th><th>1.0</th><th>2.0</th><th>33.0</th><th>2.0</th><th>11.0</th><th>122.0</th><th>223.0</th><th>233.0</th><th>322.0</th><th>djfh</th><th>lsidfj</th><th>ligh</th><th>33.0</th><th>dsfd</th><th>2025-12-29</th><th>11.0</th><th>111.0</th><th>איילת השחר</th><th>1.0</th><th>nadlan</th><th>221.0</th><th>1.2</th><th>1.0</th><th>2025-12-29</th></tr></table><br><button onclick='window.location.replace("/")'>Home</button>
+    <tr>
+        {% for header in field_headers %}
+            <th>{{ header }}</th>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for field in field_fields %}
+            <td>{{ field }}</td>
+        {% endfor %}
+{#        <th>1</th>#}
+{#        <th></th>#}
+{#        <th>nadlan</th>#}
+{#        <th>check1</th>#}
+{#        <th>32323</th>#}
+{#        <th>3456</th>#}
+{#        <th>israel</th>#}
+{#        <th>A</th>#}
+{#        <th>modies</th>#}
+{#        <th>2025-12-29</th>#}
+{#        <th>121212.0</th>#}
+{#        <th>NIs</th>#}
+{#        <th>1.0</th>#}
+{#        <th>2.0</th>#}
+{#        <th>33.0</th>#}
+{#        <th>2.0</th>#}
+{#        <th>11.0</th>#}
+{#        <th>122.0</th>#}
+{#        <th>223.0</th>#}
+{#        <th>233.0</th>#}
+{#        <th>322.0</th>#}
+{#        <th>djfh</th>#}
+{#        <th>lsidfj</th>#}
+{#        <th>ligh</th>#}
+{#        <th>33.0</th>#}
+{#        <th>dsfd</th>#}
+{#        <th>2025-12-29</th>#}
+{#        <th>11.0</th>#}
+{#        <th>111.0</th>#}
+{#        <th>איילת השחר</th>#}
+{#        <th>1.0</th>#}
+{#        <th>nadlan</th>#}
+{#        <th>221.0</th>#}
+{#        <th>1.2</th>#}
+{#        <th>1.0</th>#}
+{#        <th>2025-12-29</th>#}
+    </tr>
+</table>
+<br>
+<button onclick='window.location.replace("/")'>Home</button>
