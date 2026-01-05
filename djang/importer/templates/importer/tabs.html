@@ -1,0 +1,9 @@
+קובץ {{ file_name }}
+<br>רשימת טאבים:<br>
+<select size = 10 onchange='window.location.replace("/details/1/"+this.options[this.selectedIndex].innerHTML)'>
+    {% for tab in tab_list %}
+    <option>{{ tab.category }}</option>
+    {% endfor %}
+</select>
+<br>
+<button onclick='window.location.replace("/")'>Home</button>

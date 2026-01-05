@@ -1,0 +1,8 @@
+רשימת דוח"ות לhello:<br>
+<select size = 10 onchange='window.location.replace("/tabs/"+this.options[this.selectedIndex].value+"/"+this.options[this.selectedIndex].innerHTML)'>
+    {% for report in report_list %}
+    <option value={{ report.id }}>{{ report.report_date }}</option>
+    {% endfor %}
+</select>
+<br>
+<button onclick='window.location.replace("/")'>Home</button>
